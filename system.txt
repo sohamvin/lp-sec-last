@@ -1,0 +1,12 @@
+# 1. Plug in USB, copy files
+# 2. Backdate the files you created
+sudo touch -d "2024-10-15 14:30:00" /path/to/files/*
+
+# 3. Clean the logs
+sudo sed -i '/usb.*storage/Id' /var/log/syslog
+sudo sed -i '/media/Id' /var/log/syslog
+sudo dmesg -c  # Clear kernel ring buffer
+sudo journalctl --vacuum-time=30m  # Remove last 30min of logs
+
+# 4. Clear bash history
+history -c && rm ~/.bash_history
